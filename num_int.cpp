@@ -7,7 +7,7 @@ using namespace std;
 class function {
 public:
 	double operator()(double x) const {
-		return 3.0 * x * x - 1.5 * x;//7.2 * x * x * x * x - 4.0 * x * x + 2;
+		return 3.0 * x * x - 1.5 * x;
 	}
 };
 
@@ -55,32 +55,32 @@ double localGauss(const function & f, double a, double b, double h) {
 int main(){
 	function f;
 	cout.precision(numeric_limits<double>::max_digits10);
-	double exact = 306.25, ans = 0;//23758.74666666666, ans = 0;
+	double exact = 306.25, ans = 0;
 	cout << "Trapezoidal Rule" << endl;
 	for(unsigned h = 10; h < 100; h += 10) {
 		ans = trap_rule(f, 0, 7, h);
-		cout << h + 1.0 << " " << ans << " " << abs(ans - exact) / exact << endl;
+		cout << h << " " << ans << " " << abs(ans - exact) / exact << endl;
 	}
 	for(unsigned h = 100; h < 1000; h += 100){
 		ans = trap_rule(f, 0, 7, h);
-		cout << h + 1.0 << " " << ans << " " << abs(ans - exact) / exact << endl;
+		cout << h << " " << ans << " " << abs(ans - exact) / exact << endl;
 	}
 	for(unsigned h = 1000; h <= 10000000; h *= 10) {
 		ans = trap_rule(f, 0, 7, h);
-		cout << h + 1.0 << " " << ans << " " << abs(ans - exact) / exact << endl;
+		cout << h << " " << ans << " " << abs(ans - exact) / exact << endl;
 	}
 	cout << "Simpson's Rule" << endl;
 	for(unsigned h = 10; h < 100; h += 10) {
 		ans = simp(f, 0, 7, h);
-		cout << h + 1.0 << " " << ans << " " << abs(ans - exact) / exact << endl;
+		cout << h << " " << ans << " " << abs(ans - exact) / exact << endl;
 	}
 	for(unsigned h = 100; h < 1000; h += 100){
 		ans = simp(f, 0, 7, h);
-		cout << h + 1.0 << " " << ans << " " << abs(ans - exact) / exact << endl;
+		cout << h << " " << ans << " " << abs(ans - exact) / exact << endl;
 	}
 	for(unsigned h = 1000; h <= 10000000; h *= 10) {
 		ans = simp(f, 0, 7, h);
-		cout << h + 1.0 << " " << ans << " " << abs(ans - exact) / exact << endl;
+		cout << h << " " << ans << " " << abs(ans - exact) / exact << endl;
 	}
 	cout << "Gaussian Quadrature" << endl;
 	for(unsigned h = 1; h <= 10000000; h *= 10) {
@@ -89,5 +89,3 @@ int main(){
 	}
 	return 1;
 }
-
-//		cout << "(" << h << "," << abs(ans - exact) / exact << ")" << endl;
