@@ -24,7 +24,7 @@ double energy(const vector<pair<double,double>> & p) {
 }
 
 int main(){
-	double N = 20, a = 5, dx = 0.2, kT = .1;
+	double max = pow(10,7), N = 20, a = 5, dx = 0.2, kT = .02, dT = kT / max, low = numeric_limits<double>::max();
 	vector<pair<double,double>> particles(N);
 	srand (time(NULL));
 	for(unsigned i = 0; i < N; ++i) {
@@ -32,8 +32,8 @@ int main(){
 		particles[i].second = ((double) rand() / (RAND_MAX)) * a; 
 	}
 	double E_0 = energy(particles);
-	for(unsigned i = 0; i < pow(10,7); ++i) {
-	 	cout << E_0 << endl;
+	for(unsigned i = 0; i < max; ++i) {
+	 	cout << E_0 << " " << low << endl;
 	 	unsigned n = (int) (((double) rand() / (RAND_MAX)) * N);
 	 	double theta = ((double) rand() / (RAND_MAX)) * 2 * M_PI;
 	 	pair<double,double> old = particles[n];
@@ -47,6 +47,8 @@ int main(){
 		if (E_1 < E_0) E_0 = E_1;
 		else if (exp(-(E_1 - E_0) / kT) > ((double) rand() / (RAND_MAX))) E_0 = E_1;
 		else particles[n] = old;
+		if (E_0 < low) low = E_0;
+		kT -= dT;
 	}
 	cout << energy(particles) << endl;
 	return 1;
