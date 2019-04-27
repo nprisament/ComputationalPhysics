@@ -11,12 +11,15 @@ from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
 
 c = 0.01
-dt = .2
+dt = .5
 dx = .01
 eta = c**2 * dt**2 / dx**2
 length = 1
 size = math.floor(length / dx)
-J = 1000
+t_max = 300
+J = math.floor(t_max / dt)
+interval = 5
+mod = math.floor(interval / dt)
 
 u = []
 u.append([])
@@ -32,10 +35,12 @@ for x in range(size):
     for y in range(size):
         u[1][x].append([])
         for z in range(size):
-            if (x > size * 3 / 8 and y > size * 3 / 8 and z > size * 3 / 8
-                and x < size * 5 / 8 and y < size * 5 / 8 and z < size * 5 / 8):
-                u[1][x][y].append(4)
-            else:
+            #if (x > size * 3 / 8 and y > size * 3 / 8 and z > size * 3 / 8
+             #   and x < size * 5 / 8 and y < size * 5 / 8 and z < size * 5 / 8):
+              #  u[1][x][y].append(4)
+            if (z == 0):
+                u[1][x][y].append(10)
+            else:   
                 u[1][x][y].append(0)
 
 for j in range(2, J+1):
@@ -45,6 +50,9 @@ for j in range(2, J+1):
         for y in range(size):
             u[j][x].append([])
             for z in range(size):
+                if (z == 0 and j % mod == 0):
+                    u[j][x][y].append(10)
+                    continue
                 new = 0
                 uj = u[j-1][x][y][z]
                 ujm = u[j-2][x][y][z]
@@ -71,7 +79,7 @@ for j in range(2, J+1):
                 u[j][x][y].append(new)
     if (j % 5 == 0):
         ax = sns.heatmap(u[j][math.floor(size / 2)], annot=False, xticklabels=False,
-                     yticklabels=False, linewidth=0.0, cmap="RdYlBu_r", vmin=-200, vmax=200)
+                     yticklabels=False, linewidth=0.0, cmap="RdYlBu_r", vmin=-50, vmax=50)
         plt.ylabel("z")
         plt.xlabel("y")
         plt.show()
