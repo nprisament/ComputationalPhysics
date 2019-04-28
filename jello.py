@@ -11,14 +11,14 @@ from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
 
 c = 0.01
-dt = .5
+dt = 0.5
 dx = .01
 eta = c**2 * dt**2 / dx**2
-length = 1
+length = 0.75
 size = math.floor(length / dx)
-t_max = 300
+t_max = 1000
 J = math.floor(t_max / dt)
-interval = 5
+interval = 100
 mod = math.floor(interval / dt)
 
 u = []
@@ -77,9 +77,9 @@ for j in range(2, J+1):
                 laplacian = uxpj + uxmj + uypj + uymj + uzpj + uzmj - 6 * uj
                 new = 2 * uj - ujm + eta * (laplacian)
                 u[j][x][y].append(new)
-    if (j % 5 == 0):
+    if (j % 2 == 0):
         ax = sns.heatmap(u[j][math.floor(size / 2)], annot=False, xticklabels=False,
-                     yticklabels=False, linewidth=0.0, cmap="RdYlBu_r", vmin=-50, vmax=50)
+                     yticklabels=False, linewidth=0.0, cmap="RdYlBu_r", vmin=-25, vmax=25)
         plt.ylabel("z")
         plt.xlabel("y")
         plt.show()
