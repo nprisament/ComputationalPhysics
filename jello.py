@@ -10,16 +10,16 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
 
-c = 0.01
-dt = 0.5
-dx = .01
+c = 8.92968232592
+dt = 0.01
+dx = 0.2
 eta = c**2 * dt**2 / dx**2
-length = 0.75
+length = 10
 size = math.floor(length / dx)
-t_max = 1000
-J = math.floor(t_max / dt)
-interval = 100
-mod = math.floor(interval / dt)
+t_max = 30
+t_max = math.floor(t_max / dt)
+omega = 4.86
+omega = math.floor(omega / dt)
 
 u = []
 u.append([])
@@ -43,14 +43,14 @@ for x in range(size):
             else:   
                 u[1][x][y].append(0)
 
-for j in range(2, J+1):
+for j in range(2, t_max+1):
     u.append([])
     for x in range(size):
         u[j].append([])
         for y in range(size):
             u[j][x].append([])
             for z in range(size):
-                if (z == 0 and j % mod == 0):
+                if (z == 0 and j % omega == 0):
                     u[j][x][y].append(10)
                     continue
                 new = 0
@@ -78,8 +78,9 @@ for j in range(2, J+1):
                 new = 2 * uj - ujm + eta * (laplacian)
                 u[j][x][y].append(new)
     if (j % 2 == 0):
+        print(j)
         ax = sns.heatmap(u[j][math.floor(size / 2)], annot=False, xticklabels=False,
                      yticklabels=False, linewidth=0.0, cmap="RdYlBu_r", vmin=-25, vmax=25)
-        plt.ylabel("z")
-        plt.xlabel("y")
+        plt.ylabel("y")
+        plt.xlabel("z")
         plt.show()
